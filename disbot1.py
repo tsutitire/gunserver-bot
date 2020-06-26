@@ -48,7 +48,7 @@ async def leave(ctx):
     await voice_client.disconnect()
 
 # discord.py lib 
-TOKEN = 'NzE0NzMzNjc0MjM0NjQyNDMy.XszFnA.qpn8x0sVcdrf2MNL2WfUrE42-BA'
+TOKEN = ''
 #token
 client = discord.Client()
 @client.event
