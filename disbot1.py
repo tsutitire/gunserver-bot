@@ -24,6 +24,18 @@ EMOJI_WELCOME = '✅'
 BJ_uje = 0
 BJ_total = 0
 BJ_wait = 0
+
+RD_alr = 0
+RD_sos = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+RD_uss = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+RD_usstat = 0
+RD_sostat = 0
+RD_sop = 0
+RD_usp = 0
+RD_turn = 0
+RD_som = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+RD_usm = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+
 #EMOJIhosi
 MOKA = 0
 voice = None
@@ -48,7 +60,7 @@ async def leave(ctx):
     await voice_client.disconnect()
 
 # discord.py lib 
-TOKEN = ''
+TOKEN = 'товя токэн'
 #token
 client = discord.Client()
 @client.event
@@ -98,6 +110,335 @@ async def on_message(message):
     if message.content.startswith('$cleave'):
         channel = message.author.voice.channel
         await client.disconnect()
+    global RD_alr
+    global RD_sos
+    global RD_som
+    global RD_usm
+    global RD_sop
+    global RD_uss
+    global RD_usp
+    global RD_usstat
+    global RD_sostat
+    global RD_turn
+    global RD_usc
+    global RD_soc
+    if message.content.startswith('$radar'):
+        if RD_alr != 0:
+            await message.channel.send("既に始まってますよ？")
+        if RD_alr == 0:
+            await message.channel.send("始まりますよ～! $rjoin してくださいね～")
+            await message.channel.send("$rsetp 1-1 みたいな感じで、戦艦(横4マス),巡洋艦(縦3マス)駆逐艦(横2マス)潜水艦(縦2マス) の指定を行ってください この順番で登録されます(それぞれ下端、左端を指定してください)")
+            await message.channel.send("DMでやらないと相手にばれちゃいますよ！")
+            RD_sop = message.author.id
+            RD_alr = 1
+    if message.content.startswith("$rjoin"):
+        if RD_alr == 0:
+            await message.channel.send("まだはじまってません。 $radarしよう！")
+        if RD_alr == 1:
+            RD_usp = message.author.id
+            RD_alr = 2
+            await message.channel.send('<@' + str(RD_sop) + '>' + 'VS' + '<@' + str(RD_usp) + '>')
+    if message.content.startswith("$rreset"):
+        RD_alr = 0
+        RD_sos = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+        RD_uss = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+        RD_usstat = 0
+        RD_sostat = 0
+        RD_sop = 0
+        RD_usp = 0
+        RD_turn = 0
+        RD_usc = 0
+        RD_soc = 0
+        RD_som = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+        RD_usm = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+    if message.content.startswith("$rsetp"):
+        if RD_alr == 0:
+            await message.channel.send("まだはじまってません。 $radarしよう！")
+        if RD_alr == 2:
+            if message.author.id == RD_sop:
+                if RD_sostat == 0:
+                    shipa = message.content[7:8]
+                    shipb = message.content[9:10]
+                    shipa = int(shipa)
+                    shipb = int(shipb)
+                    soer = await client.fetch_user(RD_sop)
+                    if RD_sos[shipa][shipb] == 0 and RD_sos[shipa][shipb + 1] == 0 and RD_sos[shipa][shipb + 2] == 0 and RD_sos[shipa][shipb + 3] == 0:
+                        RD_sos[shipa][shipb] = 1
+                        RD_sos[shipa][shipb + 1] = 1
+                        RD_sos[shipa][shipb + 2] = 1
+                        RD_sos[shipa][shipb + 3] = 1
+                        RD_sostat = 1
+                    else:
+                        await soer.send("範囲外/範囲がかぶっている状態ですよ！")
+                    mess = str(RD_sos[0]) + "\n" + str(RD_sos[1]) + "\n" + str(RD_sos[2]) + "\n" + str(RD_sos[3]) + "\n" + str(RD_sos[4]) + "\n" + str(RD_sos[5]) + "\n" + str(RD_sos[6]) + "\n" + str(RD_sos[7]) + "\n" + str(RD_sos[8]) + "\n"
+                    mess = mess.replace('0', ':blue_square:')
+                    mess = mess.replace('1', ':green_square:')
+                    await soer.send(mess)
+                    return
+                if RD_sostat == 1:
+                    shipa = message.content[7:8]
+                    shipb = message.content[9:10]
+                    shipa = int(shipa)
+                    shipb = int(shipb)
+                    soer = await client.fetch_user(RD_sop)
+                    if RD_sos[shipa][shipb] == 0 and RD_sos[shipa + 1][shipb] == 0 and RD_sos[shipa + 2][shipb] == 0:
+                        RD_sos[shipa][shipb] = 1
+                        RD_sos[shipa + 1][shipb] = 1
+                        RD_sos[shipa + 2][shipb] = 1
+                        RD_sostat = 2
+                    else:
+                        await soer.send("範囲外/範囲がかぶっている状態ですよ！")
+                    mess = str(RD_sos[0]) + "\n" + str(RD_sos[1]) + "\n" + str(RD_sos[2]) + "\n" + str(RD_sos[3]) + "\n" + str(RD_sos[4]) + "\n" + str(RD_sos[5]) + "\n" + str(RD_sos[6]) + "\n" + str(RD_sos[7]) + "\n" + str(RD_sos[8]) + "\n"
+                    mess = mess.replace('0', ':blue_square:')
+                    mess = mess.replace('1', ':green_square:')
+                    await soer.send(mess)
+                    return
+                if RD_sostat == 2:
+                    shipa = message.content[7:8]
+                    shipb = message.content[9:10]
+                    shipa = int(shipa)
+                    shipb = int(shipb)
+                    soer = await client.fetch_user(RD_sop)
+                    if RD_sos[shipa][shipb] == 0 and RD_sos[shipa][shipb + 1] == 0:
+                        RD_sos[shipa][shipb] = 1
+                        RD_sos[shipa][shipb + 1] = 1
+                        RD_sostat = 3
+                    else:
+                        await soer.send("範囲外/範囲がかぶっている状態ですよ！")
+                    mess = str(RD_sos[0]) + "\n" + str(RD_sos[1]) + "\n" + str(RD_sos[2]) + "\n" + str(RD_sos[3]) + "\n" + str(RD_sos[4]) + "\n" + str(RD_sos[5]) + "\n" + str(RD_sos[6]) + "\n" + str(RD_sos[7]) + "\n" + str(RD_sos[8]) + "\n"
+                    mess = mess.replace('0', ':blue_square:')
+                    mess = mess.replace('1', ':green_square:')
+                    await soer.send(mess)
+                    return
+                if RD_sostat == 3:
+                    shipa = message.content[7:8]
+                    shipb = message.content[9:10]
+                    shipa = int(shipa)
+                    shipb = int(shipb)
+                    soer = await client.fetch_user(RD_sop)
+                    user = await client.fetch_user(RD_usp)
+                    if RD_sos[shipa][shipb] == 0 and RD_sos[shipa  + 1][shipb] == 0:
+                        RD_sos[shipa][shipb] = 1
+                        RD_sos[shipa + 1][shipb] = 1
+                        RD_sostat = 4
+                    else:
+                        await soer.send("範囲外/範囲がかぶっている状態ですよ！")
+                    mess = str(RD_sos[0]) + "\n" + str(RD_sos[1]) + "\n" + str(RD_sos[2]) + "\n" + str(RD_sos[3]) + "\n" + str(RD_sos[4]) + "\n" + str(RD_sos[5]) + "\n" + str(RD_sos[6]) + "\n" + str(RD_sos[7]) + "\n" + str(RD_sos[8]) + "\n"
+                    mess = mess.replace('0', ':blue_square:')
+                    mess = mess.replace('1', ':green_square:')
+                    await soer.send(mess)
+                    if RD_sostat != 4:
+                        await user.send("設定完了しました。相手の設定完了をお待ちください")
+                        return
+                    await user.send("始まります！ 先行はあなたです！攻撃するマスを$rbomb 0-0 みたいな感じで指定してください！")
+                    await soer.send("始まります！　後攻はあなたです！相手の操作を待って、自分の順番が来たら攻撃するマスを$rbomb 0-0 みたいな感じで指定してください！")
+                    RD_som = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+                    RD_usm = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+
+            if message.author.id == RD_usp:
+                if RD_usstat == 0:
+                    shipa = message.content[7:8]
+                    shipb = message.content[9:10]
+                    shipa = int(shipa)
+                    shipb = int(shipb)
+                    user = await client.fetch_user(RD_usp)
+                    if RD_uss[shipa][shipb] == 0 and RD_uss[shipa][shipb + 1] == 0 and RD_uss[shipa][shipb + 2] == 0 and RD_uss[shipa][shipb + 3] == 0:
+                        RD_uss[shipa][shipb] = 1
+                        RD_uss[shipa][shipb + 1] = 1
+                        RD_uss[shipa][shipb + 2] = 1
+                        RD_uss[shipa][shipb + 3] = 1
+                        RD_usstat = 1
+                    else:
+                        await user.send("範囲外/範囲がかぶっている状態ですよ！")
+                    mess = str(RD_uss[0]) + "\n" + str(RD_uss[1]) + "\n" + str(RD_uss[2]) + "\n" + str(RD_uss[3]) + "\n" + str(RD_uss[4]) + "\n" + str(RD_uss[5]) + "\n" + str(RD_uss[6]) + "\n" + str(RD_uss[7]) + "\n" + str(RD_uss[8]) + "\n"
+                    mess = mess.replace('0', ':blue_square:')
+                    mess = mess.replace('1', ':green_square:')
+                    await user.send(mess)
+                    return
+                if RD_usstat == 1:
+                    shipa = message.content[7:8]
+                    shipb = message.content[9:10]
+                    shipa = int(shipa)
+                    shipb = int(shipb)
+                    user = await client.fetch_user(RD_usp)
+                    if RD_uss[shipa][shipb] == 0 and RD_uss[shipa + 1][shipb] == 0 and RD_uss[shipa + 2][shipb] == 0:
+                        RD_uss[shipa][shipb] = 1
+                        RD_uss[shipa + 1][shipb] = 1
+                        RD_uss[shipa + 2][shipb] = 1
+                        RD_usstat = 2
+                    else:
+                        await user.send("範囲外/範囲がかぶっている状態ですよ！")
+                    mess = str(RD_uss[0]) + "\n" + str(RD_uss[1]) + "\n" + str(RD_uss[2]) + "\n" + str(RD_uss[3]) + "\n" + str(RD_uss[4]) + "\n" + str(RD_uss[5]) + "\n" + str(RD_uss[6]) + "\n" + str(RD_uss[7]) + "\n" + str(RD_uss[8]) + "\n"
+                    mess = mess.replace('0', ':blue_square:')
+                    mess = mess.replace('1', ':green_square:')
+                    await user.send(mess)
+                    return
+                if RD_usstat == 2:
+                    shipa = message.content[7:8]
+                    shipb = message.content[9:10]
+                    shipa = int(shipa)
+                    shipb = int(shipb)
+                    user = await client.fetch_user(RD_usp)
+                    if RD_uss[shipa][shipb] == 0 and RD_uss[shipa][shipb + 1] == 0:
+                        RD_uss[shipa][shipb] = 1
+                        RD_uss[shipa][shipb + 1] = 1
+                        RD_usstat = 3
+                    else:
+                        await user.send("範囲外/範囲がかぶっている状態ですよ！")
+                    mess = str(RD_uss[0]) + "\n" + str(RD_uss[1]) + "\n" + str(RD_uss[2]) + "\n" + str(RD_uss[3]) + "\n" + str(RD_uss[4]) + "\n" + str(RD_uss[5]) + "\n" + str(RD_uss[6]) + "\n" + str(RD_uss[7]) + "\n" + str(RD_uss[8]) + "\n"
+                    mess = mess.replace('0', ':blue_square:')
+                    mess = mess.replace('1', ':green_square:')
+                    await user.send(mess)
+                    return
+                if RD_usstat == 3:
+                    shipa = message.content[7:8]
+                    shipb = message.content[9:10]
+                    shipa = int(shipa)
+                    shipb = int(shipb)
+                    soer = await client.fetch_user(RD_sop)
+                    user = await client.fetch_user(RD_usp)
+                    if RD_uss[shipa][shipb] == 0 and RD_uss[shipa  + 1][shipb] == 0:
+                        RD_uss[shipa][shipb] = 1
+                        RD_uss[shipa + 1][shipb] = 1
+                        RD_usstat = 4
+                    else:
+                        await user.send("範囲外/範囲がかぶっている状態ですよ！")
+                    mess = str(RD_uss[0]) + "\n" + str(RD_uss[1]) + "\n" + str(RD_uss[2]) + "\n" + str(RD_uss[3]) + "\n" + str(RD_uss[4]) + "\n" + str(RD_uss[5]) + "\n" + str(RD_uss[6]) + "\n" + str(RD_uss[7]) + "\n" + str(RD_uss[8]) + "\n"
+                    mess = mess.replace('0', ':blue_square:')
+                    mess = mess.replace('1', ':green_square:')
+                    await user.send(mess)
+                    if RD_sostat != 4:
+                        await user.send("設定完了しました。相手の設定完了をお待ちください")
+                        return
+                    await user.send("始まります！ 先行はあなたです！攻撃するマスを$rbomb 0-0 みたいな感じで指定してください！")
+                    await soer.send("始まります！　後攻はあなたです！相手の操作を待って、自分の順番が来たら攻撃するマスを$rbomb 0-0 みたいな感じで指定してください！")
+                    RD_usstat = 5
+                    RD_turn = 1
+                    RD_sostat = 5
+                    RD_som = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+                    RD_usm = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+    if message.content.startswith("$rbomb"):
+        soer = await client.fetch_user(RD_sop)
+        user = await client.fetch_user(RD_usp)
+        if RD_turn == 1 and message.author.id == RD_usp and RD_sostat == 5:     
+            bomba = int(message.content[7:8])
+            bombb = int(message.content[9:10])
+            if int(bomba) >= 0 and int(bomba) <= 8 and int(bombb) >= 0 and int(bombb) <= 8:
+                if RD_sos[bomba][bombb] == 1:   
+                    RD_som[bomba][bombb] = 2
+                    RD_sos[bomba][bombb] = 2
+                    RD_usc = RD_usc + 1
+                if RD_sos[bomba][bombb] == 0:
+                    RD_som[bomba][bombb] = 1
+                    RD_sos[bomba][bombb] = 3
+                if RD_sos[bomba][bombb] == 2:
+                    RD_som[bomba][bombb] = 2
+                    RD_sos[bomba][bombb] = 2
+                if RD_sos[bomba][bombb] == 3:
+                    RD_sos[bomba][bombb] = 3
+                    RD_som[bomba][bombb] = 1
+                mess = str(RD_uss[0]) + "\n" + str(RD_uss[1]) + "\n" + str(RD_uss[2]) + "\n" + str(RD_uss[3]) + "\n" + str(RD_uss[4]) + "\n" + str(RD_uss[5]) + "\n" + str(RD_uss[6]) + "\n" + str(RD_uss[7]) + "\n" + str(RD_uss[8]) + "\n"
+                mess2 = str(RD_som[0]) + "\n" + str(RD_som[1]) + "\n" + str(RD_som[2]) + "\n" + str(RD_som[3]) + "\n" + str(RD_som[4]) + "\n" + str(RD_som[5]) + "\n" + str(RD_som[6]) + "\n" + str(RD_som[7]) + "\n" + str(RD_som[8]) + "\n"
+                mess = mess.replace('0', ':blue_square:')
+                mess = mess.replace('1', ':green_square:')
+                mess = mess.replace('2', ':boom:')
+                mess = mess.replace('3', ':yellow_square:')
+                mess2 = mess2.replace('0', ':blue_square:')
+                mess2 = mess2.replace('2', ':boom:')
+                mess2 = mess2.replace('1', ':yellow_square:')
+                mess3 = str(RD_sos[0]) + "\n" + str(RD_sos[1]) + "\n" + str(RD_sos[2]) + "\n" + str(RD_sos[3]) + "\n" + str(RD_sos[4]) + "\n" + str(RD_sos[5]) + "\n" + str(RD_sos[6]) + "\n" + str(RD_sos[7]) + "\n" + str(RD_sos[8]) + "\n"
+                mess4 = str(RD_usm[0]) + "\n" + str(RD_usm[1]) + "\n" + str(RD_usm[2]) + "\n" + str(RD_usm[3]) + "\n" + str(RD_usm[4]) + "\n" + str(RD_usm[5]) + "\n" + str(RD_usm[6]) + "\n" + str(RD_usm[7]) + "\n" + str(RD_usm[8]) + "\n"
+                mess3 = mess3.replace('0', ':blue_square:')
+                mess3 = mess3.replace('1', ':green_square:')
+                mess3 = mess3.replace('2', ':boom:')
+                mess3 = mess3.replace('3', ':yellow_square:')
+                mess4 = mess4.replace('0', ':blue_square:')
+                mess4 = mess4.replace('2', ':boom:')
+                mess4 = mess4.replace('1', ':yellow_square:')
+                await user.send(mess)
+                await user.send(mess2)
+                await soer.send(mess3)
+                await soer.send(mess4)
+                await  user.send("相手のターンです...")
+                await soer.send("あなたのターンです...")
+                RD_turn = 2
+                mess = str(mess)
+                if RD_usc == 11:
+                    await user.send('<@' + str(RD_usp) + '>' + "さんの勝ちだよ！おめでとう！")
+                    RD_alr = 0
+                    RD_sos = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+                    RD_uss = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+                    RD_usstat = 0
+                    RD_sostat = 0
+                    RD_sop = 0
+                    RD_turn = 0
+                    RD_usc = 0
+                    RD_soc = 0
+                    RD_usp = 0
+                    RD_som = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+                    RD_usm = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+        print(RD_turn)
+        if RD_turn == 2 and message.author.id == RD_sop and RD_sostat == 5:
+            bomba = int(message.content[7:8])
+            bombb = int(message.content[9:10])
+            if int(bomba) >= 0 and int(bomba) <= 8 and int(bombb) >= 0 and int(bombb) <= 8:
+                if RD_uss[bomba][bombb] == 1:   
+                    RD_usm[bomba][bombb] = 2
+                    RD_uss[bomba][bombb] = 2
+                    RD_soc = RD_soc + 1
+                if RD_uss[bomba][bombb] == 0:
+                    RD_usm[bomba][bombb] = 1
+                    RD_uss[bomba][bombb] = 3
+                if RD_uss[bomba][bombb] == 2:
+                    RD_usm[bomba][bombb] = 2
+                    RD_uss[bomba][bombb] = 2
+                if RD_uss[bomba][bombb] == 3:
+                    RD_uss[bomba][bombb] = 3
+                    RD_usm[bomba][bombb] = 1
+                mess = str(RD_uss[0]) + "\n" + str(RD_uss[1]) + "\n" + str(RD_uss[2]) + "\n" + str(RD_uss[3]) + "\n" + str(RD_uss[4]) + "\n" + str(RD_uss[5]) + "\n" + str(RD_uss[6]) + "\n" + str(RD_uss[7]) + "\n" + str(RD_uss[8]) + "\n"
+                mess2 = str(RD_som[0]) + "\n" + str(RD_som[1]) + "\n" + str(RD_som[2]) + "\n" + str(RD_som[3]) + "\n" + str(RD_som[4]) + "\n" + str(RD_som[5]) + "\n" + str(RD_som[6]) + "\n" + str(RD_som[7]) + "\n" + str(RD_som[8]) + "\n"
+                mess = mess.replace('0', ':blue_square:')
+                mess = mess.replace('1', ':green_square:')
+                mess = mess.replace('2', ':boom:')
+                mess = mess.replace('3', ':yellow_square:')
+                mess2 = mess2.replace('0', ':blue_square:')
+                mess2 = mess2.replace('2', ':boom:')
+                mess2 = mess2.replace('1', ':yellow_square:')
+                mess3 = str(RD_sos[0]) + "\n" + str(RD_sos[1]) + "\n" + str(RD_sos[2]) + "\n" + str(RD_sos[3]) + "\n" + str(RD_sos[4]) + "\n" + str(RD_sos[5]) + "\n" + str(RD_sos[6]) + "\n" + str(RD_sos[7]) + "\n" + str(RD_sos[8]) + "\n"
+                mess4 = str(RD_usm[0]) + "\n" + str(RD_usm[1]) + "\n" + str(RD_usm[2]) + "\n" + str(RD_usm[3]) + "\n" + str(RD_usm[4]) + "\n" + str(RD_usm[5]) + "\n" + str(RD_usm[6]) + "\n" + str(RD_usm[7]) + "\n" + str(RD_usm[8]) + "\n"
+                mess3 = mess3.replace('0', ':blue_square:')
+                mess3 = mess3.replace('1', ':green_square:')
+                mess3 = mess3.replace('2', ':boom:')
+                mess3 = mess3.replace('3', ':yellow_square:')
+                mess4 = mess4.replace('0', ':blue_square:')
+                mess4 = mess4.replace('2', ':boom:')
+                mess4 = mess4.replace('1', ':yellow_square:')
+                await user.send(mess)
+                await user.send(mess2)
+                await soer.send(mess3)
+                await soer.send(mess4)
+                await user.send("あなたのターンです...")
+                await soer.send("相手のターンです...")
+                RD_turn = 1
+                mess3 = str(mess3)
+                if RD_soc == 11:
+                    await user.send('<@' + str(RD_sop) + '>' + "さんの勝ちだよ！おめでとう！")
+                    RD_alr = 0
+                    RD_sos = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+                    RD_uss = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+                    RD_usstat = 0
+                    RD_sostat = 0
+                    RD_sop = 0
+                    RD_usp = 0
+                    RD_turn = 0
+                    RD_usc = 0
+                    RD_soc = 0
+                    RD_som = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+                    RD_usm = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+                
+                    
+                    
+                    
     
     if message.content.startswith('$PIdt'):
         http = urllib3.PoolManager()
@@ -413,7 +754,7 @@ async def on_message(message):
         embed.add_field(name="$PIdt ユーザー名",value="PlayerIslamds内のユーザーデータを取得できます♪")
         embed.add_field(name="$PIsv サーバー名",value="PlayerIslands内のサーバーデータを取得できます ※ごめんなさい、土が無能なせいでボクの機能がうまく行かず、UNICORD形式の部分アリ")
         embed.add_field(name='$trsl 変換元言語,変換先言語,"変換する文章"',value="Google翻訳をしてくれます　言語の例：ru(ロシア)en(英語)ja(日本語) 土が無能なせいで機能がないため、文字コード変換が必須です")
-        embed.add_field(name="文字コード変換用サイトです", value="https://uguisu.skr.jp/netgame/conv/")
+        embed.add_field(name="文字コード変換用サイトです", value="https://uguisu.skr.jp\netgame/conv/")
         await message.channel.send(embed=embed)
         
     if message.content.startswith('$kongyo'):
