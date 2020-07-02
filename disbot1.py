@@ -12,6 +12,9 @@ import urllib.request
 import urllib.parse
 import json
 import time
+import requests as rqs
+import bs4
+from bs4 import BeautifulSoup
 import codecs
 from discord.ext import commands
 client = discord.Client()
@@ -60,7 +63,7 @@ async def leave(ctx):
     await voice_client.disconnect()
 
 # discord.py lib 
-TOKEN = 'товя токэн'
+TOKEN = 'Oh, there is no token here. sorry.'
 #token
 client = discord.Client()
 @client.event
@@ -83,6 +86,9 @@ async def on_disconnect():
     channel = client.get_channel(greetchannel)
     await channel.send('Goodbye,everyone! пока!')
     print("パカー!")
+
+@client.event
+async def discord.on_bulk_message_delete(message):
     
     
 @client.event
@@ -128,6 +134,8 @@ async def on_message(message):
         if RD_alr == 0:
             await message.channel.send("始まりますよ～! $rjoin してくださいね～")
             await message.channel.send("$rsetp 1-1 みたいな感じで、戦艦(横4マス),巡洋艦(縦3マス)駆逐艦(横2マス)潜水艦(縦2マス) の指定を行ってください この順番で登録されます(それぞれ下端、左端を指定してください)")
+            await message.channel.send("マップ説明：　上が自陣、下が相手陣マップです。　自陣：青マス＝海 緑マス=船 黄色マス=相手の攻撃があったマス 爆発=相手に爆撃された船マス 相手陣:青マス＝未攻撃マス 黄色マス=攻撃済みのマス 爆発=攻撃して、命中したマス(前後左右のどこかに敵艦の残りが隠れてます)")
+            await message.channel.send("マップマス 左上から、0-0 0-1 0-2…って感じです 9×9になっています。")
             await message.channel.send("DMでやらないと相手にばれちゃいますよ！")
             RD_sop = message.author.id
             RD_alr = 1
@@ -754,9 +762,59 @@ async def on_message(message):
         embed.add_field(name="$PIdt ユーザー名",value="PlayerIslamds内のユーザーデータを取得できます♪")
         embed.add_field(name="$PIsv サーバー名",value="PlayerIslands内のサーバーデータを取得できます ※ごめんなさい、土が無能なせいでボクの機能がうまく行かず、UNICORD形式の部分アリ")
         embed.add_field(name='$trsl 変換元言語,変換先言語,"変換する文章"',value="Google翻訳をしてくれます　言語の例：ru(ロシア)en(英語)ja(日本語) 土が無能なせいで機能がないため、文字コード変換が必須です")
+        embed.add_field(name='$radar',value="誰かと艦隊ゲームで遊べます！")
         embed.add_field(name="文字コード変換用サイトです", value="https://uguisu.skr.jp\netgame/conv/")
         await message.channel.send(embed=embed)
-        
+    
+    if message.content.startswith('$mcbans'):
+        mcid = message.content[8:]
+        res = rqs.get('https://www.mcbans.com/player/' + str(mcid))
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, "html.parser")
+        #http = urllib3.PoolManager()
+        #r = http.request('GET','https://www.mcbans.com/player/' + str(mcid))
+        #ua = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) '\
+             #'AppleWebKit/537.36 (KHTML, like Gecko) '\
+             #'Chrome/55.0.2883.95 Safari/537.36 '
+             
+        #req = urllib.request.Request('https://www.mcbans.com/player/' + str(mcid), headers={'User-Agent': ua})
+        #html = urllib.request.urlopen(req)
+            #Link = a.gt.urlopen(req)
+        #soup = BeautifulSoup(html, "html.parser")
+        #soup = str(r.data)
+        print(soup)
+        soup = str(soup)
+        count = 0
+        count2 = 0
+        embed = discord.Embed(title="MCBANS",description=str(mcid) + "'s mcbans data")
+        count2 = 0
+        while count != 4: 
+            count = count + 1
+            count2 = count2 + 1
+            print(count)
+            print(count2)
+            if count == 1:
+                sind1 = soup.find("section-content")
+                print(sind1)
+                sind2 = soup.find("<",sind1)
+                print(sind2)
+                sind3 = sind1 + 15
+            if count != 1:
+                sind1 = soup.find("section-content",sind3)
+                #sind1 = soup.find(">",(sind1 + 17))
+                sind2 = soup.find("<",sind1)
+                print(sind1)
+                print(sind2)
+                sind3 = sind1 + 15
+            if count == 1:
+                embed.add_field(name=str(mcid) + "'s Reputation", value=soup[(sind1 + 17):(sind2)])
+            if count == 2:
+                embed.add_field(name=str(mcid) + "'s Issued Bans", value=soup[(sind1 + 17):(sind2)])     
+            if count == 3:
+                embed.add_field(name=str(mcid) + "'s UUID", value=soup[(sind1 + 40):(sind2)])
+            if count == 4:
+                embed.add_field(name=str(mcid) + "'s Bans", value=soup[(sind1 + 17):(sind2)])
+        await message.channel.send(embed=embed)
     if message.content.startswith('$kongyo'):
         voice = await client.channel.connect(client.get_channel("653565863911227423"))
         player = voice.play(discord.FFmpegPCMAudio("コンギョ.mp3"))
