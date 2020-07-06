@@ -12,7 +12,7 @@ import urllib.request
 import urllib.parse
 import json
 import time
-import requests as rqs
+#import requests as rqs
 import bs4
 from bs4 import BeautifulSoup
 import codecs
@@ -35,6 +35,8 @@ RD_usstat = 0
 RD_sostat = 0
 RD_sop = 0
 RD_usp = 0
+RD_soc = 0
+RD_usc = 0
 RD_turn = 0
 RD_som = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
 RD_usm = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
@@ -63,7 +65,7 @@ async def leave(ctx):
     await voice_client.disconnect()
 
 # discord.py lib 
-TOKEN = 'Oh, there is no token here. sorry.'
+TOKEN = 'NzE0NzMzNjc0MjM0NjQyNDMy.XvVJ7Q.-uRPNJDvUD2BbcoorDUKn8ZlZr8'
 #token
 client = discord.Client()
 @client.event
@@ -87,8 +89,8 @@ async def on_disconnect():
     await channel.send('Goodbye,everyone! пока!')
     print("パカー!")
 
-@client.event
-async def discord.on_bulk_message_delete(message):
+#@client.event
+#async def discord.on_bulk_message_delete(message):
     
     
 @client.event
@@ -527,7 +529,20 @@ async def on_message(message):
     
     
     
-    
+    if message.content.startswith('$bitc'):
+        http = urllib3.PoolManager()
+        link = 'https://api.coindesk.com/v1/bpi/currentprice/JPY.json'
+        r = http.request('GET',link)
+        rr = str(r.data)
+        print(rr)
+        rind1 = rr.find('"rate"')
+        rind2 = rr.find('","',rind1)
+        rind3 = rr.find('"rate"',rind2)
+        rind4 = rr.find('","',rind3)
+        print(str(rind1) + "a" + str(rind2) + "b" + str(rind3) + "c" + str(rind4))
+        rdat1 = rr[(rind1 + 8):(rind2 - 1)]
+        rdat2 = rr[(rind3 + 8):(rind4 - 1)]
+        await message.channel.send("USD: " + rdat1 + "$ and JPY: " + rdat2 + "￥")
     if message.content.startswith('$PIsv'):
         http = urllib3.PoolManager()
         MCID = message.content[6:]
@@ -763,6 +778,7 @@ async def on_message(message):
         embed.add_field(name="$PIsv サーバー名",value="PlayerIslands内のサーバーデータを取得できます ※ごめんなさい、土が無能なせいでボクの機能がうまく行かず、UNICORD形式の部分アリ")
         embed.add_field(name='$trsl 変換元言語,変換先言語,"変換する文章"',value="Google翻訳をしてくれます　言語の例：ru(ロシア)en(英語)ja(日本語) 土が無能なせいで機能がないため、文字コード変換が必須です")
         embed.add_field(name='$radar',value="誰かと艦隊ゲームで遊べます！")
+        embed.add_field(name='$bitc',value="ビットコインのレートが見れます♪")
         embed.add_field(name="文字コード変換用サイトです", value="https://uguisu.skr.jp\netgame/conv/")
         await message.channel.send(embed=embed)
     
