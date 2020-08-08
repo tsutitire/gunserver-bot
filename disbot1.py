@@ -18,11 +18,11 @@ from bs4 import BeautifulSoup
 import codecs
 from discord.ext import commands
 client = discord.Client()
-greetchannel = 682930148093460558
-ROLE_WELCOME = 676570304285376515
-CHANNEL_WELCOME = 683107957923512349
-SP_ID = 682917849999998986
-discord_voice_channel_id = '653565863911227423'
+greetchannel = 
+ROLE_WELCOME = 
+CHANNEL_WELCOME = 
+SP_ID = 
+discord_voice_channel_id = 
 EMOJI_WELCOME = '✅'
 BJ_uje = 0
 BJ_total = 0
@@ -47,9 +47,9 @@ voice = None
 player = None
 TICKET = 0
 CHANNEL = 0
-USERS = [442263946402201612]
-COINS = [1]
-CATEGORY = 673806292393132052
+USERS = []
+COINS = []
+CATEGORY = 
 translatem = 0
 bot = commands.Bot(command_prefix='$')
 
@@ -65,7 +65,7 @@ async def leave(ctx):
     await voice_client.disconnect()
 
 # discord.py lib 
-TOKEN = 'NzE0NzMzNjc0MjM0NjQyNDMy.XvVJ7Q.-uRPNJDvUD2BbcoorDUKn8ZlZr8'
+TOKEN = ''
 #token
 client = discord.Client()
 @client.event
@@ -1231,14 +1231,18 @@ async def rolegive1(payload):
 async def on_raw_reaction_add(payload):
     member = await rolegive1(payload)
 #実行らしい
-class MyBot(commands.Bot):
-    @commands.command()
-    async def test(self, ctx):
-        await ctx.send('pong!')
-if __name__ == '__main__':
-    bot = MyBot(command_prefix='!')
+#class MyBot(commands.Bot):
+    #@commands.command()
+    #async def test(self, ctx):
+        #await ctx.send('pong!')
+#if __name__ == '__main__':
+    #bot = MyBot(command_prefix='!')
 client.run(TOKEN)
          
+                  
+        
+
+
                   
         
 
