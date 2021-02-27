@@ -15,6 +15,7 @@ import random
 import urllib3
 import urllib.error
 import urllib.request
+import requests
 import urllib.parse
 import json
 import datetime
@@ -40,13 +41,12 @@ class datacog(commands.Cog):
         embed.add_field(name="$sknf UUID",value="誰かのマイクラでのスキンを取得できます")
         embed.add_field(name="$avat ユーザー名",value="誰かのマイクラでの頭を取得できます")
         embed.add_field(name="$skn2 ユーザー名",value="誰かのマイクラでのスキンの展開図を取得できます")
-        embed.add_field(name='$trsl 変換元言語,変換先言語,"変換する文章"',value="Google翻訳をしてくれます　言語の例：ru(ロシア)en(英語)ja(日本語) 土が無能なせいで機能がないため、文字コード変換が必須です")
+        embed.add_field(name='$trsl 変換元言語,変換先言語,"変換する文章"',value="Google翻訳をしてくれます　言語の例：ru(ロシア)en(英語)ja(日本語)")
         embed.add_field(name='$radar',value="誰かと艦隊ゲームで遊べます！")
         embed.add_field(name='$bitc',value="ビットコインのレートが見れます♪")
         embed.add_field(name='$join',value="VCにログインします。チャット内容を読み上げてくれます。")
         embed.add_field(name="$bye",value="VCからログアウトします")
         embed.add_field(name="$voiceadd 1～5",value="みにもかの読み上げる声をカスタムします（自分だけです）")
-        embed.add_field(name="文字コード変換用サイトです", value="https://uguisu.skr.jp\netgame/conv/")
         embed.add_field(name="k$ を最初に入れる", value="みにもかと会話ができます、例えば:k$おはよう")
         embed.add_field(name="$twitter", value="$twitter help => help")
         await ctx.message.channel.send(embed=embed)
@@ -344,9 +344,7 @@ class datacog(commands.Cog):
         arg1 = mescn[6:mesind1]
         arg2 = mescn[(mesind2 + 1):(mesind3)]
         arg3 = mescn[(mesind3 + 1):]
-        print(arg1 + "a")
-        print(arg2 + "b")
-        print(arg3 + "c")
+        '''
         http = urllib3.PoolManager()
         print('https://script.google.com/macros/s/AKfycby2Ly9d0yXAqYlW50zo1D51CQmTHEdnKnHd3gzNdlME4sPrC_U/exec?text=' + urllib.parse.quote(arg3) + "&source=" + arg1 + "&target=" + arg2)
         r = http.request('GET','https://script.google.com/macros/s/AKfycby2Ly9d0yXAqYlW50zo1D51CQmTHEdnKnHd3gzNdlME4sPrC_U/exec?text=' + urllib.parse.quote(arg3) + "&source=" + arg1 + "&target=" + arg2)
@@ -357,10 +355,14 @@ class datacog(commands.Cog):
         find = rd.find("xt")
         datas = rd[(find + 5):-3]
         #datas = datas[3:-3]
+        '''
+        url = 'https://script.google.com/macros/s/AKfycby2Ly9d0yXAqYlW50zo1D51CQmTHEdnKnHd3gzNdlME4sPrC_U/exec?text=' + urllib.parse.quote(arg3) + "&source=" + arg1 + "&target=" + arg2
+        req = requests.get('https://script.google.com/macros/s/AKfycby2Ly9d0yXAqYlW50zo1D51CQmTHEdnKnHd3gzNdlME4sPrC_U/exec?text=' + urllib.parse.quote(arg3) + "&source=" + arg1 + "&target=" + arg2)
         
-        
-        await ctx.message.channel.send(datas)
-        print(codecs.decode("b'" + datas + "'",'utf-8')) 
-        datase = codecs.decode(datas,"utf-8")
-        await ctx.message.channel.send(datase)
-    
+        #await ctx.message.channel.send(datas)
+        #print(codecs.decode("b'" + datas + "'",'utf-8')) 
+        #datase = codecs.decode(datas,"utf-8")
+        #await ctx.message.channel.send(datase)
+        rtext = req.text
+        rtext = rtext[22:-4]
+        await ctx.message.channel.send(rtext)
