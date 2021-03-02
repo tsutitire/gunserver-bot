@@ -117,7 +117,7 @@ async def greeting_gm():
 
 
 def send_message(message):
-    apikey = "DZZQe7pMtSBMln1Ikb7aDb1AI8poHDHE"
+    apikey = ""
     client = pya3rt.TalkClient(apikey)
     reply_message = client.talk(message)
     return reply_message['results'][0]['reply']
